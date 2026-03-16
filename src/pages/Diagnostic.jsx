@@ -93,24 +93,19 @@ export default function Diagnostic() {
 
         {step === 1 && (
           <div className="card card-hover animate-fade-in">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-gray-700/30 border border-gray-600/30 flex items-center justify-center">
-                <span className="text-2xl">📋</span>
-              </div>
-              <div>
-                <h2 className="text-3xl font-bold text-white">Quick SCARE Assessment</h2>
-                <p className="text-gray-400 text-sm">Get your initial score in 5 questions</p>
-              </div>
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-white mb-2">Quick SCARE Assessment</h2>
+              <p className="text-gray-400">Answer 5 quick questions to get your initial score</p>
             </div>
 
-            <div className="space-y-6 mt-8">
+            <div className="space-y-8">
               {scareQuestions.map((question, qIdx) => (
-                <div key={question.id} className="glass-card">
-                  <div className="flex items-start gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-lg bg-primary-500/10 border border-primary-500/20 flex items-center justify-center flex-shrink-0">
+                <div key={question.id} className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-primary-500/10 border border-primary-500/20 flex items-center justify-center flex-shrink-0 mt-1">
                       <span className="text-sm font-bold text-primary-400">{qIdx + 1}</span>
                     </div>
-                    <p className="text-lg text-white font-medium leading-relaxed">
+                    <p className="text-lg text-white font-medium leading-relaxed pt-1">
                       {question.text}
                     </p>
                   </div>
@@ -119,9 +114,9 @@ export default function Diagnostic() {
                       <button
                         key={option.value}
                         onClick={() => handleScareAnswer(question.id, option.value)}
-                        className={`p-4 rounded-xl border-2 transition-all font-medium ${
+                        className={`p-4 rounded-xl border-2 transition-all font-medium text-center ${
                           scareAnswers[question.id] === option.value
-                            ? 'border-primary-500 bg-primary-900/40 text-white shadow-lg shadow-primary-500/20 scale-105'
+                            ? 'border-primary-500 bg-primary-900/40 text-white shadow-lg shadow-primary-500/20'
                             : 'border-gray-700/50 bg-gray-800/30 text-gray-300 hover:border-primary-500/50 hover:bg-gray-800/50'
                         }`}
                       >
@@ -136,7 +131,7 @@ export default function Diagnostic() {
             <button
               onClick={completeScareQuestions}
               disabled={Object.keys(scareAnswers).length < scareQuestions.length}
-              className="btn-primary w-full mt-8 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="btn-primary w-full mt-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               Continue to Analysis →
             </button>
@@ -146,11 +141,9 @@ export default function Diagnostic() {
         {step === 2 && (
           <div className="space-y-6 animate-fade-in">
             <div className="card">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center">
-                  <span className="text-2xl">📊</span>
-                </div>
-                <h2 className="text-3xl font-bold text-white">Your SCARE Analysis</h2>
+              <div className="mb-8">
+                <h2 className="text-3xl font-bold text-white mb-2">Your SCARE Analysis</h2>
+                <p className="text-gray-400">Here's what your assessment reveals</p>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6 mb-8">
@@ -163,10 +156,10 @@ export default function Diagnostic() {
                   </div>
                 </div>
 
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-900/30 to-primary-800/30 border border-primary-700/50 p-8">
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-900/40 to-primary-800/40 border border-primary-700/50 p-8">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500/10 rounded-full blur-2xl" />
                   <div className="relative z-10 text-center">
-                    <div className="text-6xl font-bold text-white mb-2">{scareIndex}</div>
+                    <div className="text-6xl font-bold text-primary-300 mb-2">{scareIndex}</div>
                     <div className="text-sm text-gray-400 mb-1">out of 100</div>
                     <div className="text-lg text-gray-300 font-semibold">SCARE Index</div>
                   </div>
@@ -203,7 +196,7 @@ export default function Diagnostic() {
                       </div>
                       <div className="w-full bg-gray-800/50 rounded-full h-3 mb-2 overflow-hidden">
                         <div
-                          className="bg-gradient-to-r from-gray-500 to-gray-400 h-3 rounded-full transition-all duration-700 shadow-lg"
+                          className="bg-gradient-to-r from-primary-600 to-primary-400 h-3 rounded-full transition-all duration-700 shadow-lg shadow-primary-500/20"
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
@@ -222,11 +215,9 @@ export default function Diagnostic() {
 
         {step === 3 && (
           <div className="card card-hover animate-fade-in">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center">
-                <span className="text-2xl">🎯</span>
-              </div>
-              <h2 className="text-3xl font-bold text-white">Primary CARES Focus Area</h2>
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-white mb-2">Primary CARES Focus Area</h2>
+              <p className="text-gray-400">Based on your assessment, here's where to focus</p>
             </div>
 
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-900/40 to-primary-800/40 border border-primary-700/50 p-10 mb-8">
@@ -242,23 +233,16 @@ export default function Diagnostic() {
               </div>
             </div>
 
-            <div className="glass-card">
-              <div className="flex gap-4">
-                <div className="w-10 h-10 rounded-lg bg-primary-500/10 border border-primary-500/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl">💡</span>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">Why This Matters</h3>
-                  <p className="text-gray-300 leading-relaxed">
-                    Based on your SCARE assessment, strengthening <span className="text-primary-400 font-semibold">{focusArea}</span> will
-                    have the greatest impact on reducing friction and building resilience in your leadership
-                    and organization.
-                  </p>
-                </div>
-              </div>
+            <div className="glass-card mb-8">
+              <h3 className="text-xl font-semibold text-white mb-3">Why This Matters</h3>
+              <p className="text-gray-300 leading-relaxed">
+                Based on your SCARE assessment, strengthening <span className="text-primary-400 font-semibold">{focusArea}</span> will
+                have the greatest impact on reducing friction and building resilience in your leadership
+                and organization.
+              </p>
             </div>
 
-            <button onClick={() => setStep(4)} className="btn-primary w-full mt-8">
+            <button onClick={() => setStep(4)} className="btn-primary w-full">
               Continue to Focused Assessment →
             </button>
           </div>
@@ -266,14 +250,9 @@ export default function Diagnostic() {
 
         {step === 4 && (
           <div className="card card-hover animate-fade-in">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-12 h-12 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center">
-                <span className="text-2xl">🔍</span>
-              </div>
-              <div>
-                <h2 className="text-3xl font-bold text-white">Focused Assessment</h2>
-                <p className="text-primary-400 font-semibold">{focusArea}</p>
-              </div>
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-white mb-2">Focused Assessment</h2>
+              <p className="text-primary-400 font-semibold">{focusArea}</p>
             </div>
 
             {(() => {
@@ -283,7 +262,7 @@ export default function Diagnostic() {
 
               return (
                 <>
-                  <div className="my-8">
+                  <div className="mb-8">
                     <div className="flex justify-between text-sm text-gray-400 mb-3">
                       <span className="font-medium">Question {currentQuestionIndex + 1} of {questions.length}</span>
                       <span className="font-mono">{Math.round(((currentQuestionIndex + 1) / questions.length) * 100)}%</span>
@@ -313,8 +292,8 @@ export default function Diagnostic() {
                           onClick={() => handleFocusedAnswer(option.value)}
                           className={`w-full p-5 rounded-xl border-2 text-left transition-all group ${
                             currentAnswer === option.value
-                              ? 'border-primary-500 bg-primary-900/40 text-white shadow-lg shadow-primary-500/20 scale-[1.02]'
-                              : 'border-gray-700/50 bg-gray-800/30 text-gray-300 hover:border-primary-500/50 hover:bg-gray-800/50 hover:scale-[1.01]'
+                              ? 'border-primary-500 bg-primary-900/40 text-white shadow-lg shadow-primary-500/20'
+                              : 'border-gray-700/50 bg-gray-800/30 text-gray-300 hover:border-primary-500/50 hover:bg-gray-800/50'
                           }`}
                         >
                           <div className="flex items-center gap-4">
@@ -351,11 +330,9 @@ export default function Diagnostic() {
         {step === 5 && (
           <div className="space-y-6 animate-fade-in">
             <div className="card">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-12 h-12 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center">
-                  <span className="text-2xl">✨</span>
-                </div>
-                <h2 className="text-3xl font-bold text-white">Your Leadership Insight</h2>
+              <div className="mb-8">
+                <h2 className="text-3xl font-bold text-white mb-2">Your Leadership Insight</h2>
+                <p className="text-gray-400">Summary of your assessment results</p>
               </div>
 
               <div className="grid md:grid-cols-3 gap-4 mb-8">
@@ -365,7 +342,7 @@ export default function Diagnostic() {
                   <div className="text-sm text-gray-400">SCARE Score</div>
                 </div>
                 <div className="glass-card text-center">
-                  <div className="text-4xl font-bold text-white mb-2">{scareIndex}</div>
+                  <div className="text-4xl font-bold text-primary-400 mb-2">{scareIndex}</div>
                   <div className="text-xs text-gray-500 mb-1">out of 100</div>
                   <div className="text-sm text-gray-400">SCARE Index</div>
                 </div>
@@ -379,9 +356,7 @@ export default function Diagnostic() {
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-900/30 to-primary-800/30 border border-primary-700/50 p-8">
                 <div className="absolute top-0 right-0 w-48 h-48 bg-primary-500/10 rounded-full blur-2xl" />
                 <div className="relative z-10">
-                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                    <span>📝</span> Summary
-                  </h3>
+                  <h3 className="text-xl font-bold text-white mb-4">Summary</h3>
                   <p className="text-gray-300 leading-relaxed mb-4">
                     Your assessment indicates {getInterpretationBand(scareIndex).label.toLowerCase()} in your
                     current leadership environment. The most impactful area for you to strengthen is{' '}
@@ -402,17 +377,12 @@ export default function Diagnostic() {
 
         {step === 6 && (
           <div className="card card-hover animate-fade-in">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center">
-                <span className="text-2xl">📧</span>
-              </div>
-              <div>
-                <h2 className="text-3xl font-bold text-white">Get Your Personalized Action Plan</h2>
-                <p className="text-gray-400 text-sm mt-1">Receive detailed insights and recommendations</p>
-              </div>
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-white mb-2">Get Your Personalized Action Plan</h2>
+              <p className="text-gray-400">Receive detailed insights and recommendations</p>
             </div>
 
-            <form onSubmit={handleEmailSubmit} className="space-y-5 mt-8">
+            <form onSubmit={handleEmailSubmit} className="space-y-5">
               <div className="grid md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-sm font-semibold text-gray-300 mb-2">
@@ -494,18 +464,12 @@ export default function Diagnostic() {
         {step === 7 && (
           <div className="space-y-8 animate-fade-in">
             <div className="card">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center">
-                  <span className="text-2xl">🎯</span>
-                </div>
-                <h2 className="text-3xl font-bold text-white">Your CARES Action Plan</h2>
+              <div className="mb-8">
+                <h2 className="text-3xl font-bold text-white mb-2">Your CARES Action Plan</h2>
+                <p className="text-gray-300">Based on your diagnostic, these are the most relevant next steps for you.</p>
               </div>
 
-              <p className="text-gray-300 mb-8">
-                Based on your diagnostic, these are the most relevant next steps for you.
-              </p>
-
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-900/30 to-primary-800/30 border border-primary-700/50 p-8">
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-900/30 to-primary-800/30 border border-primary-700/50 p-8 mb-8">
                 <div className="absolute top-0 right-0 w-48 h-48 bg-primary-500/10 rounded-full blur-2xl" />
                 <div className="relative z-10">
                   <div className="inline-block px-4 py-1.5 bg-primary-500/20 border border-primary-500/30 rounded-full mb-3">
@@ -520,9 +484,7 @@ export default function Diagnostic() {
             </div>
 
             <div className="card">
-              <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                <span>📚</span> Recommended Insights
-              </h3>
+              <h3 className="text-2xl font-bold text-white mb-6">Recommended Insights</h3>
               <div className="space-y-4">
                 {getRecommendedChapters(focusArea).map((rec, idx) => (
                   <div key={idx} className="glass-card card-hover group">
