@@ -311,9 +311,9 @@ export function determineFocusArea(answers, scareIndex) {
 
 export function getInterpretationBand(scareIndex) {
   if (scareIndex < 30) return { label: "Low Friction", color: "text-green-400" };
-  if (scareIndex < 50) return { label: "Moderate Friction", color: "text-yellow-400" };
-  if (scareIndex < 75) return { label: "Elevated Strain", color: "text-orange-400" };
-  return { label: "Critical Intervention Needed", color: "text-red-400" };
+  if (scareIndex < 50) return { label: "Moderate Friction", color: "text-primary-300" };
+  if (scareIndex < 75) return { label: "Elevated Strain", color: "text-primary-400" };
+  return { label: "Critical Intervention Needed", color: "text-primary-500" };
 }
 
 export function getRecommendedChapters(focusArea) {

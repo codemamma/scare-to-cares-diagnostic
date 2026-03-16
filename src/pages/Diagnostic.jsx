@@ -94,7 +94,7 @@ export default function Diagnostic() {
         {step === 1 && (
           <div className="card card-hover animate-fade-in">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-gray-700/30 border border-gray-600/30 flex items-center justify-center">
                 <span className="text-2xl">📋</span>
               </div>
               <div>
@@ -154,8 +154,8 @@ export default function Diagnostic() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-6 mb-8">
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-900/30 to-orange-900/30 border border-red-800/50 p-8">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-2xl" />
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/60 to-gray-800/40 border border-gray-700/50 p-8">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gray-600/10 rounded-full blur-2xl" />
                   <div className="relative z-10 text-center">
                     <div className="text-6xl font-bold text-white mb-2">{scareScore}</div>
                     <div className="text-sm text-gray-400 mb-1">out of 20</div>
@@ -203,7 +203,7 @@ export default function Diagnostic() {
                       </div>
                       <div className="w-full bg-gray-800/50 rounded-full h-3 mb-2 overflow-hidden">
                         <div
-                          className="bg-gradient-to-r from-red-600 to-orange-500 h-3 rounded-full transition-all duration-700 shadow-lg"
+                          className="bg-gradient-to-r from-gray-500 to-gray-400 h-3 rounded-full transition-all duration-700 shadow-lg"
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
