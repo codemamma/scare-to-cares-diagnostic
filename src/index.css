@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -22,6 +22,7 @@
 body {
   margin: 0;
   min-height: 100vh;
+  background: #000000;
 }
 
 * {
@@ -30,18 +31,43 @@ body {
 
 @layer components {
   .btn-primary {
-    @apply px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-500 text-white font-semibold rounded-lg hover:from-primary-700 hover:to-primary-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary-500/50;
+    @apply px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-500 text-white font-semibold rounded-xl hover:from-primary-700 hover:to-primary-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-primary-500/30 hover:scale-[1.02] active:scale-[0.98];
   }
 
   .btn-secondary {
-    @apply px-8 py-4 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 transition-all duration-300 border border-gray-700;
+    @apply px-8 py-4 bg-gray-900/50 backdrop-blur-sm text-white font-semibold rounded-xl hover:bg-gray-800/50 transition-all duration-300 border border-gray-700/50 hover:border-gray-600 hover:scale-[1.02] active:scale-[0.98];
   }
 
   .card {
-    @apply bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-xl p-8 shadow-xl;
+    @apply bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-sm border border-gray-800/50 rounded-2xl p-8 shadow-2xl;
   }
 
   .card-hover {
-    @apply transition-all duration-300 hover:border-primary-600/50 hover:shadow-2xl hover:shadow-primary-600/20;
+    @apply transition-all duration-300 hover:border-primary-600/30 hover:shadow-2xl hover:shadow-primary-600/10 hover:-translate-y-1;
+  }
+
+  .glass-card {
+    @apply bg-gray-900/30 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 shadow-xl;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent;
+  }
+
+  .section-glow {
+    position: relative;
+  }
+
+  .section-glow::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
   }
 }
