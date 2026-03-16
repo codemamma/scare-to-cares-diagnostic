@@ -1,24 +1,27 @@
-import heroImg from '../assets/hero.png';
-
 export default function Home({ onStartDiagnostic }) {
   const scareItems = [
     {
+      letter: "S",
       title: "Stress",
       description: "Overwhelmed by constant pressure and change"
     },
     {
+      letter: "C",
       title: "Confusion",
       description: "Unclear priorities and mixed messages"
     },
     {
+      letter: "A",
       title: "Anxiety",
       description: "Fear of failure and unknown outcomes"
     },
     {
+      letter: "R",
       title: "Resistance",
       description: "Pushback and lack of buy-in"
     },
     {
+      letter: "E",
       title: "Ego",
       description: "Defensive reactions and blame"
     }
@@ -26,22 +29,27 @@ export default function Home({ onStartDiagnostic }) {
 
   const caresItems = [
     {
+      letter: "C",
       title: "Communicate",
       description: "Clearly and consistently share context"
     },
     {
+      letter: "A",
       title: "Adjust",
       description: "Adapt when conditions change"
     },
     {
+      letter: "R",
       title: "Relate",
       description: "Build strong working relationships"
     },
     {
+      letter: "E",
       title: "Empower",
       description: "Give people ownership and trust"
     },
     {
+      letter: "S",
       title: "Stay Calm",
       description: "Lead with composure under pressure"
     }
@@ -61,10 +69,6 @@ export default function Home({ onStartDiagnostic }) {
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary-600/10 rounded-full blur-3xl" />
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
-          <div className="mb-8 flex justify-center">
-            <img src={heroImg} alt="" className="w-32 h-32 opacity-80" />
-          </div>
-
           <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
             CARES Leadership
             <span className="block gradient-text">Diagnostic</span>
@@ -110,29 +114,21 @@ export default function Home({ onStartDiagnostic }) {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="card card-hover border-red-900/30 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 rounded-full blur-3xl" />
+            <div className="card border-gray-800/50 relative overflow-hidden">
               <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                    <span className="text-2xl">⚠️</span>
-                  </div>
-                  <h3 className="text-3xl font-bold text-red-400">SCARE</h3>
-                </div>
+                <h3 className="text-4xl font-bold text-gray-300 mb-8 tracking-wider">SCARE</h3>
 
-                <p className="text-gray-400 mb-8 text-sm">
-                  Patterns that create friction, resistance, and burnout
-                </p>
-
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {scareItems.map((item, idx) => (
-                    <div key={idx} className="group">
-                      <div className="bg-gray-900/50 border border-red-900/30 rounded-xl p-4 transition-all duration-300 hover:border-red-500/50 hover:bg-red-950/20">
-                        <h4 className="text-lg font-semibold text-white mb-1 flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 bg-red-500 rounded-full" />
+                    <div key={idx} className="flex gap-6 items-start">
+                      <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+                        <span className="text-3xl font-bold text-gray-400">{item.letter}</span>
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-xl font-semibold text-white mb-2">
                           {item.title}
                         </h4>
-                        <p className="text-gray-400 text-sm pl-3.5">
+                        <p className="text-gray-400 text-sm leading-relaxed">
                           {item.description}
                         </p>
                       </div>
@@ -142,29 +138,22 @@ export default function Home({ onStartDiagnostic }) {
               </div>
             </div>
 
-            <div className="card card-hover border-primary-900/30 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600/5 rounded-full blur-3xl" />
+            <div className="card border-primary-800/50 relative overflow-hidden bg-gradient-to-br from-gray-900/90 via-primary-950/30 to-black/90">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-primary-600/10 rounded-full blur-3xl" />
               <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center">
-                    <span className="text-2xl">✨</span>
-                  </div>
-                  <h3 className="text-3xl font-bold text-primary-400">CARES</h3>
-                </div>
+                <h3 className="text-4xl font-bold text-primary-400 mb-8 tracking-wider">CARES</h3>
 
-                <p className="text-gray-400 mb-8 text-sm">
-                  Principles that build resilience, alignment, and trust
-                </p>
-
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {caresItems.map((item, idx) => (
-                    <div key={idx} className="group">
-                      <div className="bg-gray-900/50 border border-primary-900/30 rounded-xl p-4 transition-all duration-300 hover:border-primary-500/50 hover:bg-primary-950/20">
-                        <h4 className="text-lg font-semibold text-white mb-1 flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 bg-primary-500 rounded-full" />
+                    <div key={idx} className="flex gap-6 items-start">
+                      <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+                        <span className="text-3xl font-bold text-primary-400">{item.letter}</span>
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-xl font-semibold text-white mb-2">
                           {item.title}
                         </h4>
-                        <p className="text-gray-400 text-sm pl-3.5">
+                        <p className="text-gray-300 text-sm leading-relaxed">
                           {item.description}
                         </p>
                       </div>
