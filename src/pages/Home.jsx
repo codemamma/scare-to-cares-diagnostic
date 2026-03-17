@@ -174,10 +174,10 @@ export default function Home({ onStartDiagnostic }) {
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold text-white mb-6">
-              About the Framework
+              SCARE to CARES
             </h2>
             <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-              Based on the book "SCARE to CARES: Leading Digital Transformation without Chaos"
+              A practical framework for leading digital transformation without chaos
             </p>
           </div>
 
@@ -194,20 +194,29 @@ export default function Home({ onStartDiagnostic }) {
             <div className="space-y-6">
               <div className="card">
                 <h3 className="text-2xl font-bold text-white mb-4">
-                  Leading Digital Transformation without Chaos
+                  About the Author
                 </h3>
                 <p className="text-gray-300 leading-relaxed mb-4">
-                  Written by <span className="text-primary-400 font-semibold">Saby Waraich</span>,
-                  Leadership Expert & Keynote Speaker
+                  <span className="text-primary-400 font-semibold">Saby Waraich</span> is a global keynote speaker,
+                  award-winning CIO and CISO, and leadership advisor with over two decades of experience guiding
+                  organizations through complex change.
                 </p>
                 <p className="text-gray-300 leading-relaxed mb-4">
-                  With a foreword by <span className="text-white font-semibold">Jack Canfield</span>,
+                  His work spans government, education, and enterprise environments where decisions carry real consequences.
+                  The ideas in this book are shaped by lived experience, not theory.
+                </p>
+                <p className="text-gray-300 leading-relaxed mb-6">
+                  The foreword is written by <span className="text-white font-semibold">Jack Canfield</span>,
                   bestselling author of Chicken Soup for the Soul.
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  This diagnostic tool brings the frameworks from the book to life,
-                  helping you identify patterns and strengthen your leadership capacity.
-                </p>
+                <a
+                  href="https://www.amazon.com/dp/B0DSKJBW3P"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary inline-block"
+                >
+                  Order Book on Amazon →
+                </a>
               </div>
             </div>
           </div>
