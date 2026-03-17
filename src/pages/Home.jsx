@@ -102,6 +102,61 @@ export default function Home({ onStartDiagnostic }) {
         </div>
       </section>
 
+      <section className="py-24 px-6 relative">
+        <div className="absolute inset-0 bg-gradient-radial from-primary-900/10 to-transparent opacity-50" />
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold text-white mb-6">
+              SCARE to CARES
+            </h2>
+            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
+              A practical framework for leading digital transformation without chaos
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary-600/20 to-primary-400/20 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <img
+                src={bookCover}
+                alt="SCARE to CARES Book by Saby Waraich"
+                className="relative w-full max-w-md mx-auto rounded-xl shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-300"
+              />
+            </div>
+
+            <div className="space-y-6">
+              <div className="card">
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  About the Author
+                </h3>
+                <p className="text-gray-300 leading-relaxed mb-4">
+                  <span className="text-primary-400 font-semibold">Saby Waraich</span> is a global keynote speaker,
+                  award-winning CIO and CISO, and leadership advisor with over two decades of experience guiding
+                  organizations through complex change.
+                </p>
+                <p className="text-gray-300 leading-relaxed mb-4">
+                  His work spans government, education, and enterprise environments where decisions carry real consequences.
+                  The ideas in this book are shaped by lived experience, not theory.
+                </p>
+                <p className="text-gray-300 leading-relaxed mb-6">
+                  The foreword is written by <span className="text-white font-semibold">Jack Canfield</span>,
+                  bestselling author of Chicken Soup for the Soul.
+                </p>
+                <a
+                  href="https://www.amazon.com/dp/B0DSKJBW3P"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary inline-block"
+                >
+                  Order Book on Amazon →
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="relative py-24 px-6">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/30 to-transparent" />
 
@@ -162,61 +217,6 @@ export default function Home({ onStartDiagnostic }) {
                     </div>
                   ))}
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-24 px-6 relative">
-        <div className="absolute inset-0 bg-gradient-radial from-primary-900/10 to-transparent opacity-50" />
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold text-white mb-6">
-              SCARE to CARES
-            </h2>
-            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-              A practical framework for leading digital transformation without chaos
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-            <div className="relative group">
-              <div className="absolute -inset-4 bg-gradient-to-r from-primary-600/20 to-primary-400/20 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <img
-                src={bookCover}
-                alt="SCARE to CARES Book by Saby Waraich"
-                className="relative w-full max-w-md mx-auto rounded-xl shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-300"
-              />
-            </div>
-
-            <div className="space-y-6">
-              <div className="card">
-                <h3 className="text-2xl font-bold text-white mb-4">
-                  About the Author
-                </h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
-                  <span className="text-primary-400 font-semibold">Saby Waraich</span> is a global keynote speaker,
-                  award-winning CIO and CISO, and leadership advisor with over two decades of experience guiding
-                  organizations through complex change.
-                </p>
-                <p className="text-gray-300 leading-relaxed mb-4">
-                  His work spans government, education, and enterprise environments where decisions carry real consequences.
-                  The ideas in this book are shaped by lived experience, not theory.
-                </p>
-                <p className="text-gray-300 leading-relaxed mb-6">
-                  The foreword is written by <span className="text-white font-semibold">Jack Canfield</span>,
-                  bestselling author of Chicken Soup for the Soul.
-                </p>
-                <a
-                  href="https://www.amazon.com/dp/B0DSKJBW3P"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary inline-block"
-                >
-                  Order Book on Amazon →
-                </a>
               </div>
             </div>
           </div>
