@@ -13,6 +13,16 @@ export default function Diagnostic() {
 
   useEffect(() => {
     analytics.trackDiagnosticStart();
+
+    // Initialize all responses to 5.0
+    const initialResponses = {};
+    dimensionOrder.forEach(dimKey => {
+      const dimension = caresDimensions[dimKey];
+      dimension.questions.forEach(question => {
+        initialResponses[question.id] = 5.0;
+      });
+    });
+    setCaresResponses(initialResponses);
   }, []);
 
   const calculateDimensionScore = (dimensionKey) => {
