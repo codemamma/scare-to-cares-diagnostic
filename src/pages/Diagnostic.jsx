@@ -19,16 +19,14 @@ export default function Diagnostic() {
 
   const calculateDimensionScore = (dimensionKey) => {
     const dimension = caresDimensions[dimensionKey];
-    const responses = dimension.questions.map(q => caresResponses[q.id] || 0);
-    if (responses.every(r => r === 0)) return 0;
+    const responses = dimension.questions.map(q => caresResponses[q.id]);
+    if (responses.some(r => r === undefined)) return 5.0;
     const average = responses.reduce((sum, val) => sum + val, 0) / responses.length;
     return Number(average.toFixed(1));
   };
 
   const calculateOverallScore = () => {
     const scores = dimensionOrder.map(dim => calculateDimensionScore(dim));
-    const validScores = scores.filter(s => s > 0);
-    if (validScores.length === 0) return 0;
     const average = scores.reduce((sum, val) => sum + val, 0) / scores.length;
     return Number(average.toFixed(1));
   };
@@ -88,9 +86,7 @@ export default function Diagnostic() {
   };
 
   const allQuestionsAnswered = () => {
-    return dimensionOrder.every(dim =>
-      caresDimensions[dim].questions.every(q => caresResponses[q.id] !== undefined)
-    );
+    return true;
   };
 
   const renderIntro = () => (
@@ -180,7 +176,7 @@ export default function Diagnostic() {
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">SCORE</span>
                         <span className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                          {dimensionScore > 0 ? dimensionScore : '—'}
+                          {dimensionScore.toFixed(1)}
                         </span>
                       </div>
 
@@ -228,7 +224,7 @@ export default function Diagnostic() {
 
                   <div className="bg-gradient-to-br from-lime-400 to-lime-500 rounded-2xl p-8 mb-6 text-center">
                     <div className="text-7xl font-bold text-white mb-2">
-                      {overallScore > 0 ? overallScore : '0.0'}
+                      {overallScore.toFixed(1)}
                     </div>
                     <div className="text-white text-lg font-medium">out of 10</div>
                   </div>
