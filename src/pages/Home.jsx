@@ -1,3 +1,5 @@
+import bookCover from '../assets/WhatsApp_Image_2026-03-16_at_12.27.48_PM.jpeg';
+
 export default function Home({ onStartDiagnostic }) {
   const scareItems = [
     {
@@ -69,9 +71,9 @@ export default function Home({ onStartDiagnostic }) {
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary-600/10 rounded-full blur-3xl" />
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
-          <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight overflow-visible">
             CARES Leadership
-            <span className="block gradient-text">Diagnostic</span>
+            <span className="block gradient-text pb-2">Diagnostic</span>
           </h1>
 
           <p className="text-xl text-gray-300 mb-4 max-w-3xl mx-auto leading-relaxed">
@@ -160,6 +162,52 @@ export default function Home({ onStartDiagnostic }) {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 px-6 relative">
+        <div className="absolute inset-0 bg-gradient-radial from-primary-900/10 to-transparent opacity-50" />
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold text-white mb-6">
+              About the Framework
+            </h2>
+            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
+              Based on the book "SCARE to CARES: Leading Digital Transformation without Chaos"
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary-600/20 to-primary-400/20 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <img
+                src={bookCover}
+                alt="SCARE to CARES Book by Saby Waraich"
+                className="relative w-full max-w-md mx-auto rounded-xl shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-300"
+              />
+            </div>
+
+            <div className="space-y-6">
+              <div className="card">
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  Leading Digital Transformation without Chaos
+                </h3>
+                <p className="text-gray-300 leading-relaxed mb-4">
+                  Written by <span className="text-primary-400 font-semibold">Saby Waraich</span>,
+                  Leadership Expert & Keynote Speaker
+                </p>
+                <p className="text-gray-300 leading-relaxed mb-4">
+                  With a foreword by <span className="text-white font-semibold">Jack Canfield</span>,
+                  bestselling author of Chicken Soup for the Soul.
+                </p>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  This diagnostic tool brings the frameworks from the book to life,
+                  helping you identify patterns and strengthen your leadership capacity.
+                </p>
               </div>
             </div>
           </div>
