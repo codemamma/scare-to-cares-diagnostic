@@ -12,7 +12,6 @@ import {
   nextStepResources
 } from '../data/diagnosticData';
 import LeadCaptureModal from '../components/LeadCaptureModal';
-import { captureLeadAndEvent } from '../services/eventTracking';
 import * as analytics from '../services/analytics';
 
 export default function Diagnostic() {
@@ -31,7 +30,6 @@ export default function Diagnostic() {
     challenge: ''
   });
   const [dimensionScores, setDimensionScores] = useState({});
-  const [leadId, setLeadId] = useState(null);
   const [showToolkitModal, setShowToolkitModal] = useState(false);
   const [showWorkshopModal, setShowWorkshopModal] = useState(false);
 
@@ -88,79 +86,22 @@ export default function Diagnostic() {
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await captureLeadAndEvent(
-      {
-        email: emailData.email,
-        name: emailData.firstName,
-        role: emailData.role,
-        company: emailData.company,
-      },
-      {
-        action_type: 'diagnostic_completed',
-        scare_score: scareScore,
-        scare_index: scareIndex,
-        focus_area: focusArea,
-        metadata: {
-          challenge: emailData.challenge,
-        },
-      }
-    );
-
-    if (result.success) {
-      setLeadId(result.leadId);
-    }
+    analytics.trackLeadCapture('diagnostic_completed', emailData.email);
 
     setStage('recommendations');
   };
 
   const handleToolkitDownload = async (formData) => {
     analytics.trackActionClick('toolkit_download', scareScore, focusArea);
+    analytics.trackLeadCapture('toolkit_download', formData.email);
 
-    const result = await captureLeadAndEvent(
-      {
-        email: formData.email,
-        name: formData.name,
-        role: formData.role,
-        company: formData.company,
-      },
-      {
-        action_type: 'toolkit_download',
-        scare_score: scareScore,
-        scare_index: scareIndex,
-        focus_area: focusArea,
-      }
-    );
-
-    if (result.success) {
-      setLeadId(result.leadId);
-      analytics.trackLeadCapture('toolkit_download', formData.email);
-      window.open('https://sabywaraich.com/resources', '_blank');
-    }
-
+    window.open('https://sabywaraich.com/resources', '_blank');
     setShowToolkitModal(false);
   };
 
   const handleWorkshopWaitlist = async (formData) => {
     analytics.trackActionClick('workshop_waitlist', scareScore, focusArea);
-
-    const result = await captureLeadAndEvent(
-      {
-        email: formData.email,
-        name: formData.name,
-        role: formData.role,
-        company: formData.company,
-      },
-      {
-        action_type: 'workshop_waitlist',
-        scare_score: scareScore,
-        scare_index: scareIndex,
-        focus_area: focusArea,
-      }
-    );
-
-    if (result.success) {
-      analytics.trackLeadCapture('workshop_waitlist', formData.email);
-    }
+    analytics.trackLeadCapture('workshop_waitlist', formData.email);
 
     setShowWorkshopModal(false);
     alert('Thank you for your interest! We\'ll be in touch soon with workshop details.');
@@ -168,27 +109,7 @@ export default function Diagnostic() {
 
   const handleCoachingRequest = async () => {
     analytics.trackActionClick('coaching_request', scareScore, focusArea);
-
-    if (leadId) {
-      const result = await captureLeadAndEvent(
-        {
-          email: emailData.email,
-          name: emailData.firstName,
-          role: emailData.role,
-          company: emailData.company,
-        },
-        {
-          action_type: 'coaching_request',
-          scare_score: scareScore,
-          scare_index: scareIndex,
-          focus_area: focusArea,
-        }
-      );
-
-      if (result.success) {
-        analytics.trackLeadCapture('coaching_request', emailData.email);
-      }
-    }
+    analytics.trackLeadCapture('coaching_request', emailData.email);
 
     window.open('https://calendly.com/sabywaraich', '_blank');
   };
