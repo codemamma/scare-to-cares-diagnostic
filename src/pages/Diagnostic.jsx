@@ -91,11 +91,11 @@ export default function Diagnostic() {
     <section className="min-h-screen py-20 px-4">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600/10 border border-blue-600/30 rounded-full mb-6">
-            <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600/10 border border-primary-600/30 rounded-full mb-6">
+            <svg className="w-4 h-4 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
-            <span className="text-sm font-medium text-blue-400">3-minute diagnostic</span>
+            <span className="text-sm font-medium text-primary-400">3-minute diagnostic</span>
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -110,21 +110,21 @@ export default function Diagnostic() {
           <h2 className="text-xl font-semibold text-white mb-4">What You'll Discover</h2>
           <div className="space-y-4">
             <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400 text-sm font-semibold">1</div>
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-600/20 flex items-center justify-center text-primary-400 text-sm font-semibold">1</div>
               <div>
                 <h3 className="font-medium text-white mb-1">Your SCARE Score</h3>
                 <p className="text-sm text-gray-400">An early signal of transformation friction in your environment</p>
               </div>
             </div>
             <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400 text-sm font-semibold">2</div>
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-600/20 flex items-center justify-center text-primary-400 text-sm font-semibold">2</div>
               <div>
                 <h3 className="font-medium text-white mb-1">Your Primary Focus Area</h3>
                 <p className="text-sm text-gray-400">Which CARES dimension matters most for your current context</p>
               </div>
             </div>
             <div className="flex gap-3">
-              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400 text-sm font-semibold">3</div>
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary-600/20 flex items-center justify-center text-primary-400 text-sm font-semibold">3</div>
               <div>
                 <h3 className="font-medium text-white mb-1">Personalized Recommendations</h3>
                 <p className="text-sm text-gray-400">Specific chapters, tools, and next steps for your situation</p>
@@ -156,10 +156,10 @@ export default function Diagnostic() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-gray-400">Step 1 of 3</span>
-              <span className="text-sm font-medium text-blue-400">Quick Assessment</span>
+              <span className="text-sm font-medium text-primary-400">Quick Assessment</span>
             </div>
             <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-              <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: '33%' }}></div>
+              <div className="h-full bg-primary-600 transition-all duration-300" style={{ width: '33%' }}></div>
             </div>
           </div>
 
@@ -176,7 +176,7 @@ export default function Diagnostic() {
             {scareQuestions.map((question, index) => (
               <div key={question.id} className="bg-gray-900 border border-gray-800 rounded-lg p-6">
                 <div className="flex items-start gap-3 mb-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400 text-sm font-semibold">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary-600/20 flex items-center justify-center text-primary-400 text-sm font-semibold">
                     {index + 1}
                   </div>
                   <h3 className="text-lg font-medium text-white pt-1">{question.text}</h3>
@@ -188,7 +188,7 @@ export default function Diagnostic() {
                       key={option.value}
                       className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
                         scareResponses[question.id] === option.value
-                          ? 'border-blue-600 bg-blue-600/10'
+                          ? 'border-primary-600 bg-primary-600/10'
                           : 'border-gray-800 hover:border-gray-700 bg-gray-800/50'
                       }`}
                     >
@@ -202,11 +202,11 @@ export default function Diagnostic() {
                       />
                       <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                         scareResponses[question.id] === option.value
-                          ? 'border-blue-600'
+                          ? 'border-primary-600'
                           : 'border-gray-600'
                       }`}>
                         {scareResponses[question.id] === option.value && (
-                          <div className="w-3 h-3 rounded-full bg-blue-600"></div>
+                          <div className="w-3 h-3 rounded-full bg-primary-600"></div>
                         )}
                       </div>
                       <span className="text-gray-300">{option.label}</span>
@@ -246,10 +246,10 @@ export default function Diagnostic() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-gray-400">Step 2 of 3</span>
-              <span className="text-sm font-medium text-blue-400">Results Analysis</span>
+              <span className="text-sm font-medium text-primary-400">Results Analysis</span>
             </div>
             <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-              <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: '66%' }}></div>
+              <div className="h-full bg-primary-600 transition-all duration-300" style={{ width: '66%' }}></div>
             </div>
           </div>
 
@@ -262,7 +262,7 @@ export default function Diagnostic() {
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-blue-600/30 rounded-lg p-8 mb-8">
+          <div className="bg-gradient-to-br from-primary-600/20 to-primary-800/20 border border-primary-600/30 rounded-lg p-8 mb-8">
             <div className="text-center">
               <div className="text-7xl font-bold text-white mb-2">{scareScore}</div>
               <div className="text-xl text-gray-300 mb-4">out of 20</div>
@@ -300,7 +300,7 @@ export default function Diagnostic() {
                     </div>
                     <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-blue-600 transition-all duration-500"
+                        className="h-full bg-primary-600 transition-all duration-500"
                         style={{ width: `${(score / 4) * 100}%` }}
                       ></div>
                     </div>
@@ -344,10 +344,10 @@ export default function Diagnostic() {
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-blue-600/30 rounded-lg p-8 mb-8">
+          <div className="bg-gradient-to-br from-primary-600/20 to-primary-800/20 border border-primary-600/30 rounded-lg p-8 mb-8">
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600/20 rounded-full mb-4">
-                <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-600/20 rounded-full mb-4">
+                <svg className="w-8 h-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -389,13 +389,13 @@ export default function Diagnostic() {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-gray-400">Step 3 of 3</span>
-              <span className="text-sm font-medium text-blue-400">
+              <span className="text-sm font-medium text-primary-400">
                 Question {currentQuestionIndex + 1} of {questions.length}
               </span>
             </div>
             <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
               <div
-                className="h-full bg-blue-600 transition-all duration-300"
+                className="h-full bg-primary-600 transition-all duration-300"
                 style={{ width: `${66 + (progress * 0.34)}%` }}
               ></div>
             </div>
@@ -424,7 +424,7 @@ export default function Diagnostic() {
                   key={option.value}
                   className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
                     focusedResponses[currentQuestion.id] === option.value
-                      ? 'border-blue-600 bg-blue-600/10'
+                      ? 'border-primary-600 bg-primary-600/10'
                       : 'border-gray-800 hover:border-gray-700 bg-gray-800/50'
                   }`}
                 >
@@ -438,11 +438,11 @@ export default function Diagnostic() {
                   />
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                     focusedResponses[currentQuestion.id] === option.value
-                      ? 'border-blue-600'
+                      ? 'border-primary-600'
                       : 'border-gray-600'
                   }`}>
                     {focusedResponses[currentQuestion.id] === option.value && (
-                      <div className="w-3 h-3 rounded-full bg-blue-600"></div>
+                      <div className="w-3 h-3 rounded-full bg-primary-600"></div>
                     )}
                   </div>
                   <span className="text-gray-300">{option.label}</span>
@@ -476,8 +476,8 @@ export default function Diagnostic() {
     <section className="min-h-screen py-20 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600/20 rounded-full mb-6">
-            <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-600/20 rounded-full mb-6">
+            <svg className="w-8 h-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
@@ -501,7 +501,7 @@ export default function Diagnostic() {
                 required
                 value={emailData.firstName}
                 onChange={(e) => setEmailData(prev => ({ ...prev, firstName: e.target.value }))}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-600"
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-600"
                 placeholder="Your first name"
               />
             </div>
@@ -516,7 +516,7 @@ export default function Diagnostic() {
                 required
                 value={emailData.email}
                 onChange={(e) => setEmailData(prev => ({ ...prev, email: e.target.value }))}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-600"
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-600"
                 placeholder="your.email@company.com"
               />
             </div>
@@ -532,7 +532,7 @@ export default function Diagnostic() {
                   required
                   value={emailData.role}
                   onChange={(e) => setEmailData(prev => ({ ...prev, role: e.target.value }))}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-600"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-600"
                   placeholder="e.g., CIO, VP Engineering"
                 />
               </div>
@@ -547,7 +547,7 @@ export default function Diagnostic() {
                   required
                   value={emailData.company}
                   onChange={(e) => setEmailData(prev => ({ ...prev, company: e.target.value }))}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-600"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-600"
                   placeholder="Your organization"
                 />
               </div>
@@ -617,9 +617,9 @@ export default function Diagnostic() {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 border border-blue-600/30 rounded-lg p-8 mb-12">
+          <div className="bg-gradient-to-br from-primary-600/20 to-primary-800/20 border border-primary-600/30 rounded-lg p-8 mb-12">
             <h2 className="text-2xl font-bold text-white mb-3">Primary Focus Area</h2>
-            <h3 className="text-xl font-semibold text-blue-300 mb-4">{area.label}</h3>
+            <h3 className="text-xl font-semibold text-primary-300 mb-4">{area.label}</h3>
             <p className="text-gray-300">{area.description}</p>
           </div>
 
@@ -633,11 +633,11 @@ export default function Diagnostic() {
               {recommendations.map((rec, index) => (
                 <div key={index} className="bg-gray-900 border border-gray-800 rounded-lg p-6">
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-blue-600/20 flex items-center justify-center">
-                      <span className="text-lg font-bold text-blue-400">{index + 1}</span>
+                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary-600/20 flex items-center justify-center">
+                      <span className="text-lg font-bold text-primary-400">{index + 1}</span>
                     </div>
                     <div className="flex-1">
-                      <div className="text-sm font-medium text-blue-400 mb-1">{rec.chapter}</div>
+                      <div className="text-sm font-medium text-primary-400 mb-1">{rec.chapter}</div>
                       <h3 className="text-xl font-semibold text-white mb-2">{rec.title}</h3>
                       <p className="text-gray-400 mb-3">{rec.summary}</p>
                       <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-3">
@@ -656,8 +656,8 @@ export default function Diagnostic() {
             <div className="grid md:grid-cols-3 gap-6">
               {nextStepResources.map((resource) => (
                 <div key={resource.id} className="bg-gray-900 border border-gray-800 rounded-lg p-6">
-                  <div className="w-12 h-12 rounded-lg bg-blue-600/20 flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 rounded-lg bg-primary-600/20 flex items-center justify-center mb-4">
+                    <svg className="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       {resource.icon === 'download' && (
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       )}
