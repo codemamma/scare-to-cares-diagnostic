@@ -3,6 +3,7 @@ export const caresDimensions = {
     letter: 'S',
     title: 'Stress Response Patterns',
     description: 'How you process and manage stress as a leader',
+    color: 'bg-blue-600',
     questions: [
       {
         id: 's1',
@@ -25,6 +26,7 @@ export const caresDimensions = {
     letter: 'C',
     title: 'Communication Habits',
     description: 'How you share information and engage with your team',
+    color: 'bg-purple-600',
     questions: [
       {
         id: 'c1',
@@ -47,6 +49,7 @@ export const caresDimensions = {
     letter: 'A',
     title: 'Adaptation Approach',
     description: 'How you respond to change and make decisions',
+    color: 'bg-indigo-600',
     questions: [
       {
         id: 'a1',
@@ -69,6 +72,7 @@ export const caresDimensions = {
     letter: 'R',
     title: 'Relationship Patterns',
     description: 'How you build and maintain connections with your team',
+    color: 'bg-violet-600',
     questions: [
       {
         id: 'r1',
@@ -91,6 +95,7 @@ export const caresDimensions = {
     letter: 'E',
     title: 'Empowerment Reality',
     description: 'How you delegate and enable team autonomy',
+    color: 'bg-blue-500',
     questions: [
       {
         id: 'e1',
@@ -112,10 +117,45 @@ export const caresDimensions = {
 };
 
 export const getScoreInterpretation = (score) => {
-  if (score <= 3) return { level: 'High Risk', description: 'Fear-driven patterns dominate', color: 'text-red-600' };
-  if (score <= 6) return { level: 'Moderate Strain', description: 'Mixed patterns with room for growth', color: 'text-yellow-600' };
-  if (score <= 8) return { level: 'Stable', description: 'Healthy patterns, improvable', color: 'text-blue-600' };
-  return { level: 'Strong', description: 'Exemplary leadership pattern', color: 'text-green-600' };
+  if (score <= 3) return {
+    level: 'High fear-based patterns',
+    description: 'Fear-driven patterns dominate',
+    color: 'text-red-600',
+    bgColor: 'bg-red-50'
+  };
+  if (score <= 6) return {
+    level: 'Mixed, room for growth',
+    description: 'Mixed patterns with room for growth',
+    color: 'text-yellow-600',
+    bgColor: 'bg-yellow-50'
+  };
+  if (score <= 10) return {
+    level: 'Healthy leadership',
+    description: 'Healthy patterns, improvable',
+    color: 'text-green-600',
+    bgColor: 'bg-green-50'
+  };
+  return {
+    level: 'Strong',
+    description: 'Exemplary leadership pattern',
+    color: 'text-green-600',
+    bgColor: 'bg-green-50'
+  };
+};
+
+export const getOverallInterpretation = (overallScore) => {
+  if (overallScore <= 3) return {
+    range: '0-3:',
+    label: 'High fear-based patterns'
+  };
+  if (overallScore <= 6) return {
+    range: '4-6:',
+    label: 'Mixed, room for growth'
+  };
+  return {
+    range: '7-10:',
+    label: 'Healthy leadership'
+  };
 };
 
 export const getDimensionInsight = (dimension, score) => {
