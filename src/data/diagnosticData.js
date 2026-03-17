@@ -238,30 +238,35 @@ export const caresDimensions = [
   {
     key: "Communicate",
     label: "Communicate",
+    shortLabel: "Communication",
     description: "Clearly and consistently share context",
     longDescription: "Strong communication creates alignment, reduces confusion, and ensures everyone understands the 'why' behind decisions and changes."
   },
   {
     key: "Adjust",
     label: "Adjust",
+    shortLabel: "Adjustment",
     description: "Adapt when conditions change",
     longDescription: "Flexibility and responsiveness enable teams to learn quickly, pivot when needed, and stay relevant in dynamic environments."
   },
   {
     key: "Relate",
     label: "Relate",
+    shortLabel: "Relationships",
     description: "Build strong working relationships",
     longDescription: "Trust and collaboration form the foundation for effective teamwork, conflict resolution, and sustained high performance."
   },
   {
     key: "Empower",
     label: "Empower",
+    shortLabel: "Empowerment",
     description: "Give people ownership and trust",
     longDescription: "Empowerment unlocks initiative, accountability, and engagement by giving people the authority to make meaningful decisions."
   },
   {
     key: "Stay Calm",
     label: "Stay Calm",
+    shortLabel: "Composure",
     description: "Lead with composure under pressure",
     longDescription: "Calm leadership provides stability during uncertainty, models resilience, and enables thoughtful rather than reactive decision-making."
   }
@@ -317,34 +322,162 @@ export function getInterpretationBand(scareIndex) {
 }
 
 export function getRecommendedChapters(focusArea) {
-  // Future: Load from chapterRecommendations.json
   const recommendations = {
     "Communicate": [
-      { chapter: "Chapter 3", title: "The Communication Imperative", description: "Learn how to create clarity in complex change." },
-      { chapter: "Chapter 5", title: "Building Alignment", description: "Techniques for ensuring everyone moves in the same direction." },
-      { chapter: "Chapter 7", title: "Transparency Under Pressure", description: "How to maintain open communication when stakes are high." }
+      {
+        chapter: "Chapter 3",
+        title: "The Communication Imperative",
+        summary: "Learn how to create clarity in complex change and ensure your messages land effectively.",
+        reason: "Clear communication is the foundation for reducing confusion and building alignment across teams."
+      },
+      {
+        chapter: "Chapter 5",
+        title: "Building Alignment",
+        summary: "Techniques for ensuring everyone moves in the same direction with shared understanding.",
+        reason: "Alignment eliminates the friction caused by mixed messages and unclear priorities."
+      },
+      {
+        chapter: "Chapter 7",
+        title: "Transparency Under Pressure",
+        summary: "How to maintain open communication when stakes are high and uncertainty is prevalent.",
+        reason: "Transparent communication builds trust and helps teams navigate challenges together."
+      }
     ],
     "Adjust": [
-      { chapter: "Chapter 4", title: "Adaptive Leadership", description: "Frameworks for making smart adjustments without losing direction." },
-      { chapter: "Chapter 6", title: "Learning Velocity", description: "How to accelerate learning and incorporate feedback." },
-      { chapter: "Chapter 8", title: "Flexible Strategy", description: "Balancing plans with the need for agility." }
+      {
+        chapter: "Chapter 4",
+        title: "Adaptive Leadership",
+        summary: "Frameworks for making smart adjustments without losing direction or momentum.",
+        reason: "Flexibility allows you to respond to changing conditions while maintaining strategic focus."
+      },
+      {
+        chapter: "Chapter 6",
+        title: "Learning Velocity",
+        summary: "How to accelerate learning cycles and incorporate feedback more effectively.",
+        reason: "Fast learning enables rapid adaptation and reduces the cost of course corrections."
+      },
+      {
+        chapter: "Chapter 8",
+        title: "Flexible Strategy",
+        summary: "Balancing commitment to plans with the agility to pivot when necessary.",
+        reason: "Strategic flexibility helps you stay relevant without losing sight of your ultimate goals."
+      }
     ],
     "Relate": [
-      { chapter: "Chapter 7", title: "Trust Foundations", description: "Building relationships that withstand pressure." },
-      { chapter: "Chapter 9", title: "Conflict as Collaboration", description: "Turning disagreements into productive outcomes." },
-      { chapter: "Chapter 10", title: "Cross-Functional Partnership", description: "Breaking down silos and fostering genuine collaboration." }
+      {
+        chapter: "Chapter 7",
+        title: "Trust Foundations",
+        summary: "Building relationships that withstand pressure and enable authentic collaboration.",
+        reason: "Trust reduces resistance and creates the safety needed for teams to perform at their best."
+      },
+      {
+        chapter: "Chapter 9",
+        title: "Conflict as Collaboration",
+        summary: "Turning disagreements into productive outcomes through constructive engagement.",
+        reason: "Healthy conflict resolution strengthens relationships and leads to better decisions."
+      },
+      {
+        chapter: "Chapter 10",
+        title: "Cross-Functional Partnership",
+        summary: "Breaking down silos and fostering genuine collaboration across boundaries.",
+        reason: "Strong partnerships multiply impact and reduce the friction of organizational complexity."
+      }
     ],
     "Empower": [
-      { chapter: "Chapter 8", title: "Decision Rights", description: "How to distribute authority effectively." },
-      { chapter: "Chapter 9", title: "Ownership Culture", description: "Creating an environment where people take initiative." },
-      { chapter: "Chapter 11", title: "Accountability Systems", description: "Holding people accountable without micromanaging." }
+      {
+        chapter: "Chapter 8",
+        title: "Decision Rights",
+        summary: "How to distribute authority effectively and clarify who decides what.",
+        reason: "Clear decision rights eliminate bottlenecks and enable faster, more confident action."
+      },
+      {
+        chapter: "Chapter 9",
+        title: "Ownership Culture",
+        summary: "Creating an environment where people take initiative and drive outcomes.",
+        reason: "Ownership reduces resistance by giving people meaningful control over their work."
+      },
+      {
+        chapter: "Chapter 11",
+        title: "Accountability Systems",
+        summary: "Holding people accountable without micromanaging or creating defensive behaviors.",
+        reason: "Healthy accountability builds capability and confidence while maintaining trust."
+      }
     ],
     "Stay Calm": [
-      { chapter: "Chapter 9", title: "Composure Under Fire", description: "Techniques for maintaining calm when everything is uncertain." },
-      { chapter: "Chapter 10", title: "Resilience Practice", description: "Building personal and team resilience." },
-      { chapter: "Chapter 12", title: "Thoughtful Response", description: "Moving from reactive to reflective leadership." }
+      {
+        chapter: "Chapter 9",
+        title: "Composure Under Fire",
+        summary: "Techniques for maintaining calm when everything is uncertain and pressure is high.",
+        reason: "Your composure sets the tone and gives others permission to think clearly under stress."
+      },
+      {
+        chapter: "Chapter 10",
+        title: "Resilience Practice",
+        summary: "Building personal and team resilience to sustain performance over time.",
+        reason: "Resilience prevents burnout and enables sustained high performance through challenges."
+      },
+      {
+        chapter: "Chapter 12",
+        title: "Thoughtful Response",
+        summary: "Moving from reactive to reflective leadership in high-stakes situations.",
+        reason: "Thoughtful responses lead to better decisions and model the behavior you want to see."
+      }
     ]
   };
 
   return recommendations[focusArea] || recommendations["Communicate"];
 }
+
+export const resultProfiles = {
+  low: {
+    range: [5, 9],
+    label: "Low Friction",
+    summary: "Your environment shows relatively low transformation friction. Continue strengthening the fundamentals and maintain momentum.",
+    recommendation: "Focus on sustaining your current practices while identifying opportunities to deepen capability in your primary CARES dimension."
+  },
+  moderate: {
+    range: [10, 14],
+    label: "Moderate Friction",
+    summary: "Your environment has moderate friction that could benefit from focused intervention and strategic attention.",
+    recommendation: "Target your highest-impact area and implement systematic improvements to reduce friction before it escalates."
+  },
+  elevated: {
+    range: [15, 17],
+    label: "Elevated Strain",
+    summary: "Your environment is experiencing elevated strain that requires strategic attention and deliberate intervention.",
+    recommendation: "Address friction points urgently through your primary CARES focus area to prevent further deterioration."
+  },
+  critical: {
+    range: [18, 20],
+    label: "Critical Intervention Needed",
+    summary: "Your environment shows critical strain levels requiring immediate, comprehensive intervention across multiple dimensions.",
+    recommendation: "Take immediate action starting with your primary CARES focus area, and consider engaging external support for systemic change."
+  }
+};
+
+export const nextStepResources = [
+  {
+    id: "toolkit",
+    title: "CARES Leadership Toolkit",
+    description: "Practical frameworks, templates, and exercises to strengthen your leadership capacity",
+    cta: "Download Toolkit",
+    icon: "download",
+    type: "free"
+  },
+  {
+    id: "workshop",
+    title: "CARES Leadership Workshop",
+    description: "Join an immersive workshop to transform your approach with your team",
+    cta: "Join Workshop Waitlist",
+    icon: "calendar",
+    type: "paid"
+  },
+  {
+    id: "session",
+    title: "1:1 Strategy Session",
+    description: "Work directly with Saby to address your specific transformation challenges",
+    cta: "Request a Session",
+    icon: "user",
+    type: "premium"
+  }
+];
