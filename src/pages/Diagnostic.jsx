@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   scareQuestions,
   focusedAssessmentQuestions,
@@ -13,6 +13,7 @@ import {
 } from '../data/diagnosticData';
 import LeadCaptureModal from '../components/LeadCaptureModal';
 import { captureLeadAndEvent } from '../services/eventTracking';
+import * as analytics from '../services/analytics';
 
 export default function Diagnostic() {
   const [stage, setStage] = useState('intro');
@@ -33,6 +34,12 @@ export default function Diagnostic() {
   const [leadId, setLeadId] = useState(null);
   const [showToolkitModal, setShowToolkitModal] = useState(false);
   const [showWorkshopModal, setShowWorkshopModal] = useState(false);
+
+  useEffect(() => {
+    if (stage === 'assessment') {
+      analytics.trackDiagnosticStart();
+    }
+  }, [stage]);
 
   const handleScareResponse = (questionId, value) => {
     setScareResponses(prev => ({ ...prev, [questionId]: value }));
@@ -55,6 +62,8 @@ export default function Diagnostic() {
     setScareIndex(index);
     setFocusArea(focus);
     setStage('score');
+
+    analytics.trackDiagnosticComplete(score, focus);
   };
 
   const handleFocusedResponse = (questionId, value) => {
@@ -105,6 +114,8 @@ export default function Diagnostic() {
   };
 
   const handleToolkitDownload = async (formData) => {
+    analytics.trackActionClick('toolkit_download', scareScore, focusArea);
+
     const result = await captureLeadAndEvent(
       {
         email: formData.email,
@@ -122,6 +133,7 @@ export default function Diagnostic() {
 
     if (result.success) {
       setLeadId(result.leadId);
+      analytics.trackLeadCapture('toolkit_download', formData.email);
       window.open('https://sabywaraich.com/resources', '_blank');
     }
 
@@ -129,7 +141,9 @@ export default function Diagnostic() {
   };
 
   const handleWorkshopWaitlist = async (formData) => {
-    await captureLeadAndEvent(
+    analytics.trackActionClick('workshop_waitlist', scareScore, focusArea);
+
+    const result = await captureLeadAndEvent(
       {
         email: formData.email,
         name: formData.name,
@@ -144,13 +158,19 @@ export default function Diagnostic() {
       }
     );
 
+    if (result.success) {
+      analytics.trackLeadCapture('workshop_waitlist', formData.email);
+    }
+
     setShowWorkshopModal(false);
     alert('Thank you for your interest! We\'ll be in touch soon with workshop details.');
   };
 
   const handleCoachingRequest = async () => {
+    analytics.trackActionClick('coaching_request', scareScore, focusArea);
+
     if (leadId) {
-      await captureLeadAndEvent(
+      const result = await captureLeadAndEvent(
         {
           email: emailData.email,
           name: emailData.firstName,
@@ -164,6 +184,10 @@ export default function Diagnostic() {
           focus_area: focusArea,
         }
       );
+
+      if (result.success) {
+        analytics.trackLeadCapture('coaching_request', emailData.email);
+      }
     }
 
     window.open('https://calendly.com/sabywaraich', '_blank');
@@ -756,7 +780,10 @@ export default function Diagnostic() {
                 <h3 className="text-lg font-semibold text-white mb-2">Free Leadership Toolkit</h3>
                 <p className="text-sm text-gray-400 mb-4">Templates, worksheets, and practical frameworks you can use immediately</p>
                 <button
-                  onClick={() => setShowToolkitModal(true)}
+                  onClick={() => {
+                    analytics.trackModalOpen('toolkit_modal');
+                    setShowToolkitModal(true);
+                  }}
                   className="btn-secondary text-sm w-full"
                 >
                   Download Toolkit
@@ -772,7 +799,10 @@ export default function Diagnostic() {
                 <h3 className="text-lg font-semibold text-white mb-2">Join Workshop Waitlist</h3>
                 <p className="text-sm text-gray-400 mb-4">Get early access to cohort-based workshops on the CARES framework</p>
                 <button
-                  onClick={() => setShowWorkshopModal(true)}
+                  onClick={() => {
+                    analytics.trackModalOpen('workshop_modal');
+                    setShowWorkshopModal(true);
+                  }}
                   className="btn-secondary text-sm w-full"
                 >
                   Join Waitlist
@@ -823,7 +853,10 @@ export default function Diagnostic() {
 
       <LeadCaptureModal
         isOpen={showToolkitModal}
-        onClose={() => setShowToolkitModal(false)}
+        onClose={() => {
+          analytics.trackModalClose('toolkit_modal');
+          setShowToolkitModal(false);
+        }}
         onSubmit={handleToolkitDownload}
         title="Download Leadership Toolkit"
         description="Get instant access to templates, worksheets, and frameworks to strengthen your leadership practice."
@@ -832,7 +865,10 @@ export default function Diagnostic() {
 
       <LeadCaptureModal
         isOpen={showWorkshopModal}
-        onClose={() => setShowWorkshopModal(false)}
+        onClose={() => {
+          analytics.trackModalClose('workshop_modal');
+          setShowWorkshopModal(false);
+        }}
         onSubmit={handleWorkshopWaitlist}
         title="Join Workshop Waitlist"
         description="Be the first to know when we launch cohort-based workshops on the CARES framework."
