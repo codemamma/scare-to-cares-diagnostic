@@ -11,7 +11,6 @@ import {
   resultProfiles,
   nextStepResources
 } from '../data/diagnosticData';
-import LeadCaptureModal from '../components/LeadCaptureModal';
 import * as analytics from '../services/analytics';
 
 export default function Diagnostic() {
@@ -22,16 +21,7 @@ export default function Diagnostic() {
   const [focusArea, setFocusArea] = useState(null);
   const [focusedResponses, setFocusedResponses] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [emailData, setEmailData] = useState({
-    firstName: '',
-    email: '',
-    role: '',
-    company: '',
-    challenge: ''
-  });
   const [dimensionScores, setDimensionScores] = useState({});
-  const [showToolkitModal, setShowToolkitModal] = useState(false);
-  const [showWorkshopModal, setShowWorkshopModal] = useState(false);
 
   useEffect(() => {
     if (stage === 'assessment') {
@@ -73,7 +63,7 @@ export default function Diagnostic() {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
     } else {
-      setStage('email');
+      setStage('recommendations');
     }
   };
 
@@ -83,34 +73,18 @@ export default function Diagnostic() {
     }
   };
 
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
-
-    analytics.trackLeadCapture('diagnostic_completed', emailData.email);
-
-    setStage('recommendations');
-  };
-
-  const handleToolkitDownload = async (formData) => {
+  const handleToolkitClick = () => {
     analytics.trackActionClick('toolkit_download', scareScore, focusArea);
-    analytics.trackLeadCapture('toolkit_download', formData.email);
-
     window.open('https://sabywaraich.com/resources', '_blank');
-    setShowToolkitModal(false);
   };
 
-  const handleWorkshopWaitlist = async (formData) => {
+  const handleWorkshopClick = () => {
     analytics.trackActionClick('workshop_waitlist', scareScore, focusArea);
-    analytics.trackLeadCapture('workshop_waitlist', formData.email);
-
-    setShowWorkshopModal(false);
-    alert('Thank you for your interest! We\'ll be in touch soon with workshop details.');
+    window.open('https://sabywaraich.com/workshop', '_blank');
   };
 
-  const handleCoachingRequest = async () => {
+  const handleCoachingClick = () => {
     analytics.trackActionClick('coaching_request', scareScore, focusArea);
-    analytics.trackLeadCapture('coaching_request', emailData.email);
-
     window.open('https://calendly.com/sabywaraich', '_blank');
   };
 
@@ -510,114 +484,6 @@ export default function Diagnostic() {
     );
   };
 
-  const renderEmail = () => (
-    <section className="min-h-screen py-20 px-4">
-      <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-600/20 rounded-full mb-6">
-            <svg className="w-8 h-8 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Get Your Personalized Action Plan
-          </h1>
-          <p className="text-lg text-gray-400">
-            Receive tailored recommendations, chapter insights, and next-step resources based on your unique profile.
-          </p>
-        </div>
-
-        <form onSubmit={handleEmailSubmit} className="bg-gray-900 border border-gray-800 rounded-lg p-8">
-          <div className="space-y-6">
-            <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-2">
-                First Name *
-              </label>
-              <input
-                type="text"
-                id="firstName"
-                required
-                value={emailData.firstName}
-                onChange={(e) => setEmailData(prev => ({ ...prev, firstName: e.target.value }))}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-600"
-                placeholder="Your first name"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                Email Address *
-              </label>
-              <input
-                type="email"
-                id="email"
-                required
-                value={emailData.email}
-                onChange={(e) => setEmailData(prev => ({ ...prev, email: e.target.value }))}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-600"
-                placeholder="your.email@company.com"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="role" className="block text-sm font-medium text-gray-300 mb-2">
-                  Role *
-                </label>
-                <input
-                  type="text"
-                  id="role"
-                  required
-                  value={emailData.role}
-                  onChange={(e) => setEmailData(prev => ({ ...prev, role: e.target.value }))}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-600"
-                  placeholder="e.g., CIO, VP Engineering"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">
-                  Company *
-                </label>
-                <input
-                  type="text"
-                  id="company"
-                  required
-                  value={emailData.company}
-                  onChange={(e) => setEmailData(prev => ({ ...prev, company: e.target.value }))}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-primary-600"
-                  placeholder="Your organization"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="challenge" className="block text-sm font-medium text-gray-300 mb-2">
-                Biggest Leadership Challenge <span className="text-gray-500">(optional)</span>
-              </label>
-              <textarea
-                id="challenge"
-                rows={4}
-                value={emailData.challenge}
-                onChange={(e) => setEmailData(prev => ({ ...prev, challenge: e.target.value }))}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-600 resize-none"
-                placeholder="What's the biggest challenge you're facing in your transformation work?"
-              />
-            </div>
-
-            <div className="pt-4">
-              <button type="submit" className="btn-primary w-full">
-                Get My Action Plan
-              </button>
-              <p className="text-xs text-gray-500 mt-4 text-center">
-                Your information will be used to personalize your experience and send you relevant resources. We respect your privacy.
-              </p>
-            </div>
-          </div>
-        </form>
-      </div>
-    </section>
-  );
 
   const renderRecommendations = () => {
     const area = caresDimensions.find(d => d.key === focusArea);
@@ -701,10 +567,7 @@ export default function Diagnostic() {
                 <h3 className="text-lg font-semibold text-white mb-2">Free Leadership Toolkit</h3>
                 <p className="text-sm text-gray-400 mb-4">Templates, worksheets, and practical frameworks you can use immediately</p>
                 <button
-                  onClick={() => {
-                    analytics.trackModalOpen('toolkit_modal');
-                    setShowToolkitModal(true);
-                  }}
+                  onClick={handleToolkitClick}
                   className="btn-secondary text-sm w-full"
                 >
                   Download Toolkit
@@ -720,10 +583,7 @@ export default function Diagnostic() {
                 <h3 className="text-lg font-semibold text-white mb-2">Join Workshop Waitlist</h3>
                 <p className="text-sm text-gray-400 mb-4">Get early access to cohort-based workshops on the CARES framework</p>
                 <button
-                  onClick={() => {
-                    analytics.trackModalOpen('workshop_modal');
-                    setShowWorkshopModal(true);
-                  }}
+                  onClick={handleWorkshopClick}
                   className="btn-secondary text-sm w-full"
                 >
                   Join Waitlist
@@ -739,7 +599,7 @@ export default function Diagnostic() {
                 <h3 className="text-lg font-semibold text-white mb-2">Book 1:1 Strategy Session</h3>
                 <p className="text-sm text-gray-400 mb-4">Work directly with Saby to address your specific transformation challenges</p>
                 <button
-                  onClick={handleCoachingRequest}
+                  onClick={handleCoachingClick}
                   className="btn-primary text-sm w-full"
                 >
                   Schedule Call
@@ -769,32 +629,7 @@ export default function Diagnostic() {
       {stage === 'score' && renderScore()}
       {stage === 'focus' && renderFocus()}
       {stage === 'focused' && renderFocusedAssessment()}
-      {stage === 'email' && renderEmail()}
       {stage === 'recommendations' && renderRecommendations()}
-
-      <LeadCaptureModal
-        isOpen={showToolkitModal}
-        onClose={() => {
-          analytics.trackModalClose('toolkit_modal');
-          setShowToolkitModal(false);
-        }}
-        onSubmit={handleToolkitDownload}
-        title="Download Leadership Toolkit"
-        description="Get instant access to templates, worksheets, and frameworks to strengthen your leadership practice."
-        submitButtonText="Download"
-      />
-
-      <LeadCaptureModal
-        isOpen={showWorkshopModal}
-        onClose={() => {
-          analytics.trackModalClose('workshop_modal');
-          setShowWorkshopModal(false);
-        }}
-        onSubmit={handleWorkshopWaitlist}
-        title="Join Workshop Waitlist"
-        description="Be the first to know when we launch cohort-based workshops on the CARES framework."
-        submitButtonText="Join Waitlist"
-      />
     </div>
   );
 }
