@@ -11,6 +11,8 @@ import {
   resultProfiles,
   nextStepResources
 } from '../data/diagnosticData';
+import LeadCaptureModal from '../components/LeadCaptureModal';
+import { captureLeadAndEvent } from '../services/eventTracking';
 
 export default function Diagnostic() {
   const [stage, setStage] = useState('intro');
@@ -28,6 +30,9 @@ export default function Diagnostic() {
     challenge: ''
   });
   const [dimensionScores, setDimensionScores] = useState({});
+  const [leadId, setLeadId] = useState(null);
+  const [showToolkitModal, setShowToolkitModal] = useState(false);
+  const [showWorkshopModal, setShowWorkshopModal] = useState(false);
 
   const handleScareResponse = (questionId, value) => {
     setScareResponses(prev => ({ ...prev, [questionId]: value }));
@@ -71,9 +76,97 @@ export default function Diagnostic() {
     }
   };
 
-  const handleEmailSubmit = (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
+
+    const result = await captureLeadAndEvent(
+      {
+        email: emailData.email,
+        name: emailData.firstName,
+        role: emailData.role,
+        company: emailData.company,
+      },
+      {
+        action_type: 'diagnostic_completed',
+        scare_score: scareScore,
+        scare_index: scareIndex,
+        focus_area: focusArea,
+        metadata: {
+          challenge: emailData.challenge,
+        },
+      }
+    );
+
+    if (result.success) {
+      setLeadId(result.leadId);
+    }
+
     setStage('recommendations');
+  };
+
+  const handleToolkitDownload = async (formData) => {
+    const result = await captureLeadAndEvent(
+      {
+        email: formData.email,
+        name: formData.name,
+        role: formData.role,
+        company: formData.company,
+      },
+      {
+        action_type: 'toolkit_download',
+        scare_score: scareScore,
+        scare_index: scareIndex,
+        focus_area: focusArea,
+      }
+    );
+
+    if (result.success) {
+      setLeadId(result.leadId);
+      window.open('https://sabywaraich.com/resources', '_blank');
+    }
+
+    setShowToolkitModal(false);
+  };
+
+  const handleWorkshopWaitlist = async (formData) => {
+    await captureLeadAndEvent(
+      {
+        email: formData.email,
+        name: formData.name,
+        role: formData.role,
+        company: formData.company,
+      },
+      {
+        action_type: 'workshop_waitlist',
+        scare_score: scareScore,
+        scare_index: scareIndex,
+        focus_area: focusArea,
+      }
+    );
+
+    setShowWorkshopModal(false);
+    alert('Thank you for your interest! We\'ll be in touch soon with workshop details.');
+  };
+
+  const handleCoachingRequest = async () => {
+    if (leadId) {
+      await captureLeadAndEvent(
+        {
+          email: emailData.email,
+          name: emailData.firstName,
+          role: emailData.role,
+          company: emailData.company,
+        },
+        {
+          action_type: 'coaching_request',
+          scare_score: scareScore,
+          scare_index: scareIndex,
+          focus_area: focusArea,
+        }
+      );
+    }
+
+    window.open('https://calendly.com/sabywaraich', '_blank');
   };
 
   const getProfileData = () => {
@@ -654,34 +747,53 @@ export default function Diagnostic() {
             <h2 className="text-2xl font-bold text-white mb-6">Practical Next Steps</h2>
 
             <div className="grid md:grid-cols-3 gap-6">
-              {nextStepResources.map((resource) => (
-                <div key={resource.id} className="bg-gray-900 border border-gray-800 rounded-lg p-6">
-                  <div className="w-12 h-12 rounded-lg bg-primary-600/20 flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      {resource.icon === 'download' && (
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      )}
-                      {resource.icon === 'calendar' && (
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      )}
-                      {resource.icon === 'user' && (
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      )}
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">{resource.title}</h3>
-                  <p className="text-sm text-gray-400 mb-4">{resource.description}</p>
-                  {resource.type === 'premium' ? (
-                    <button className="btn-primary text-sm w-full">
-                      {resource.cta}
-                    </button>
-                  ) : (
-                    <button className="btn-secondary text-sm w-full">
-                      {resource.cta}
-                    </button>
-                  )}
+              <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
+                <div className="w-12 h-12 rounded-lg bg-primary-600/20 flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
                 </div>
-              ))}
+                <h3 className="text-lg font-semibold text-white mb-2">Free Leadership Toolkit</h3>
+                <p className="text-sm text-gray-400 mb-4">Templates, worksheets, and practical frameworks you can use immediately</p>
+                <button
+                  onClick={() => setShowToolkitModal(true)}
+                  className="btn-secondary text-sm w-full"
+                >
+                  Download Toolkit
+                </button>
+              </div>
+
+              <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
+                <div className="w-12 h-12 rounded-lg bg-primary-600/20 flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">Join Workshop Waitlist</h3>
+                <p className="text-sm text-gray-400 mb-4">Get early access to cohort-based workshops on the CARES framework</p>
+                <button
+                  onClick={() => setShowWorkshopModal(true)}
+                  className="btn-secondary text-sm w-full"
+                >
+                  Join Waitlist
+                </button>
+              </div>
+
+              <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
+                <div className="w-12 h-12 rounded-lg bg-primary-600/20 flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">Book 1:1 Strategy Session</h3>
+                <p className="text-sm text-gray-400 mb-4">Work directly with Saby to address your specific transformation challenges</p>
+                <button
+                  onClick={handleCoachingRequest}
+                  className="btn-primary text-sm w-full"
+                >
+                  Schedule Call
+                </button>
+              </div>
             </div>
           </div>
 
@@ -708,6 +820,24 @@ export default function Diagnostic() {
       {stage === 'focused' && renderFocusedAssessment()}
       {stage === 'email' && renderEmail()}
       {stage === 'recommendations' && renderRecommendations()}
+
+      <LeadCaptureModal
+        isOpen={showToolkitModal}
+        onClose={() => setShowToolkitModal(false)}
+        onSubmit={handleToolkitDownload}
+        title="Download Leadership Toolkit"
+        description="Get instant access to templates, worksheets, and frameworks to strengthen your leadership practice."
+        submitButtonText="Download"
+      />
+
+      <LeadCaptureModal
+        isOpen={showWorkshopModal}
+        onClose={() => setShowWorkshopModal(false)}
+        onSubmit={handleWorkshopWaitlist}
+        title="Join Workshop Waitlist"
+        description="Be the first to know when we launch cohort-based workshops on the CARES framework."
+        submitButtonText="Join Waitlist"
+      />
     </div>
   );
 }
