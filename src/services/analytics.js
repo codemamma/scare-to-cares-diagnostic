@@ -6,7 +6,8 @@ export const initGA = (measurementId) => {
 
 export const trackPageView = (url) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('config', 'G-XXXXXXXXXX', {
+    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+    window.gtag('config', measurementId, {
       page_path: url,
     });
   }
