@@ -4,7 +4,7 @@ import { getRecommendedChapters } from '../data/diagnosticData';
 import * as analytics from '../services/analytics';
 
 export default function Diagnostic() {
-  const [stage, setStage] = useState('intro');
+  const [stage, setStage] = useState('assessment');
   const [caresResponses, setCaresResponses] = useState({});
   const [email, setEmail] = useState('');
   const [showEmailModal, setShowEmailModal] = useState(false);
@@ -12,10 +12,8 @@ export default function Diagnostic() {
   const dimensionOrder = ['stress', 'communication', 'adaptation', 'relationships', 'empowerment'];
 
   useEffect(() => {
-    if (stage === 'assessment') {
-      analytics.trackDiagnosticStart();
-    }
-  }, [stage]);
+    analytics.trackDiagnosticStart();
+  }, []);
 
   const calculateDimensionScore = (dimensionKey) => {
     const dimension = caresDimensions[dimensionKey];
@@ -88,59 +86,6 @@ export default function Diagnostic() {
   const allQuestionsAnswered = () => {
     return true;
   };
-
-  const renderIntro = () => (
-    <section className="min-h-screen py-20 px-4">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600/10 border border-blue-600/30 rounded-full mb-6">
-            <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
-            <span className="text-sm font-medium text-blue-400">10-minute leadership diagnostic</span>
-          </div>
-
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            CARES Leadership Assessment
-          </h1>
-          <p className="text-xl text-gray-400 mb-4">
-            A structured diagnostic to identify your leadership patterns across five critical dimensions.
-          </p>
-        </div>
-
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 mb-8">
-          <h2 className="text-xl font-semibold text-white mb-6">Five Leadership Dimensions</h2>
-          <div className="space-y-4">
-            {dimensionOrder.map((dimKey, index) => {
-              const dim = caresDimensions[dimKey];
-              return (
-                <div key={dimKey} className="flex gap-3">
-                  <div className={`flex-shrink-0 w-10 h-10 rounded-lg ${dim.color} flex items-center justify-center`}>
-                    <span className="text-lg font-bold text-white">{dim.letter}</span>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-white mb-1">{dim.title}</h3>
-                    <p className="text-sm text-gray-400">{dim.description}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <button
-          onClick={() => setStage('assessment')}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-xl transition-all"
-        >
-          Begin Assessment
-        </button>
-
-        <p className="text-center text-sm text-gray-500 mt-6">
-          Based on the SCARE to CARES framework by Saby Waraich
-        </p>
-      </div>
-    </section>
-  );
 
   const renderAssessment = () => {
     const overallScore = calculateOverallScore();
@@ -429,7 +374,6 @@ export default function Diagnostic() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      {stage === 'intro' && renderIntro()}
       {stage === 'assessment' && renderAssessment()}
       {stage === 'final' && renderFinal()}
       {showEmailModal && renderEmailModal()}
