@@ -9,6 +9,12 @@ export default function Diagnostic() {
   const [dimensionScores, setDimensionScores] = useState({});
   const [email, setEmail] = useState('');
   const [showEmailModal, setShowEmailModal] = useState(false);
+  const [submissionState, setSubmissionState] = useState({
+    loading: false,
+    success: false,
+    error: null,
+    assessmentId: null
+  });
 
   const dimensionOrder = ['stress', 'communication', 'adaptation', 'relationships', 'empowerment'];
 
@@ -69,7 +75,11 @@ export default function Diagnostic() {
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    if (email) {
+    if (!email) return;
+
+    setSubmissionState({ loading: true, success: false, error: null, assessmentId: null });
+
+    try {
       analytics.trackLeadCapture('email_report', email);
 
       const overallScore = calculateOverallScore();
@@ -83,18 +93,63 @@ export default function Diagnostic() {
         { key: dimensionOrder[0], val: scores[dimensionOrder[0]] }
       );
 
-      const reportData = {
+      const recommendations = getRecommendedChapters(lowestScore.key);
+
+      const payload = {
         email,
-        overallScore: overallScore.toFixed(1),
-        scores,
-        focusArea: caresDimensions[lowestScore.key].title,
-        timestamp: new Date().toISOString()
+        overallScore: parseFloat(overallScore.toFixed(1)),
+        categoryScores: {
+          communication: scores.communication,
+          adaptation: scores.adaptation,
+          relationships: scores.relationships,
+          stressResponse: scores.stress,
+          alignment: scores.empowerment,
+        },
+        recommendedChapters: recommendations,
+        recommendedActions: [
+          { title: 'Get the Toolkit', description: 'Complete toolkit with frameworks and exercises' },
+          { title: 'Book Workshop', description: 'Cohort-based CARES framework training' },
+          { title: '1:1 Strategy Session', description: 'Work directly with Saby Waraich' }
+        ]
       };
 
-      console.log('Sending report to:', email, reportData);
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-assessment`;
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
 
-      setShowEmailModal(false);
-      setStage('final');
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmissionState({
+          loading: false,
+          success: true,
+          error: null,
+          assessmentId: result.assessmentId
+        });
+        setShowEmailModal(false);
+        setStage('final');
+      } else {
+        setSubmissionState({
+          loading: false,
+          success: false,
+          error: result.message || 'Failed to submit assessment',
+          assessmentId: null
+        });
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setSubmissionState({
+        loading: false,
+        success: false,
+        error: 'Network error. Please try again.',
+        assessmentId: null
+      });
     }
   };
 
@@ -246,6 +301,13 @@ export default function Diagnostic() {
         <p className="text-gray-600 mb-6">
           Enter your email to receive your complete CARES leadership assessment, personalized recommendations, and chapter suggestions.
         </p>
+
+        {submissionState.error && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-red-800 text-sm">{submissionState.error}</p>
+          </div>
+        )}
+
         <form onSubmit={handleEmailSubmit}>
           <input
             type="email"
@@ -253,21 +315,24 @@ export default function Diagnostic() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="your@email.com"
             required
-            className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600 mb-4"
+            disabled={submissionState.loading}
+            className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600 mb-4 disabled:opacity-50"
           />
           <div className="flex gap-3">
             <button
               type="button"
               onClick={() => setShowEmailModal(false)}
-              className="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-all"
+              disabled={submissionState.loading}
+              className="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-all disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-all"
+              disabled={submissionState.loading}
+              className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-all disabled:opacity-50"
             >
-              Send Report
+              {submissionState.loading ? 'Sending...' : 'Send Report'}
             </button>
           </div>
         </form>
@@ -300,6 +365,19 @@ export default function Diagnostic() {
               Personalized insights and next steps
             </p>
           </div>
+
+          {submissionState.success && (
+            <div className="mb-8 p-6 bg-green-50 border border-green-200 rounded-xl">
+              <div className="flex items-center gap-3">
+                <svg className="w-6 h-6 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-green-800 font-medium">
+                  Your report has been sent to your email.
+                </p>
+              </div>
+            </div>
+          )}
 
           <div className="bg-white rounded-2xl shadow-xl p-12 mb-12 text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-8">Ready to Transform Your Leadership?</h2>
