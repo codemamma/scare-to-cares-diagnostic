@@ -114,6 +114,11 @@ export default function Diagnostic() {
       };
 
       const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-assessment`;
+      
+      console.log('SUPABASE URL:', import.meta.env.VITE_SUPABASE_URL);
+      console.log('SUPABASE ANON KEY exists:', !!import.meta.env.VITE_SUPABASE_ANON_KEY);
+      console.log('API URL:', apiUrl);
+      
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
