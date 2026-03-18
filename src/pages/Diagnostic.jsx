@@ -6,6 +6,7 @@ import * as analytics from '../services/analytics';
 export default function Diagnostic() {
   const [stage, setStage] = useState('assessment');
   const [caresResponses, setCaresResponses] = useState({});
+  const [dimensionScores, setDimensionScores] = useState({});
   const [email, setEmail] = useState('');
   const [showEmailModal, setShowEmailModal] = useState(false);
 
@@ -14,24 +15,16 @@ export default function Diagnostic() {
   useEffect(() => {
     analytics.trackDiagnosticStart();
 
-    // Initialize all responses to 5.0
-    const initialResponses = {};
+    // Initialize all dimension scores to 5.0
+    const initialScores = {};
     dimensionOrder.forEach(dimKey => {
-      const dimension = caresDimensions[dimKey];
-      dimension.questions.forEach(question => {
-        initialResponses[question.id] = 5.0;
-      });
+      initialScores[dimKey] = 5.0;
     });
-    setCaresResponses(initialResponses);
+    setDimensionScores(initialScores);
   }, []);
 
   const calculateDimensionScore = (dimensionKey) => {
-    const dimension = caresDimensions[dimensionKey];
-    const responses = dimension.questions.map(q => caresResponses[q.id]);
-    if (responses.some(r => r === undefined)) return 5.0;
-    const sum = responses.reduce((sum, val) => sum + val, 0);
-    const average = sum / responses.length;
-    return Math.round(average * 10) / 10;
+    return dimensionScores[dimensionKey] || 5.0;
   };
 
   const calculateOverallScore = () => {
@@ -145,11 +138,7 @@ export default function Diagnostic() {
                         value={dimensionScore}
                         onChange={(e) => {
                           const newValue = parseFloat(e.target.value);
-                          const numQuestions = dimension.questions.length;
-                          const valuePerQuestion = newValue / numQuestions;
-                          dimension.questions.forEach((q) => {
-                            handleCaresResponse(q.id, valuePerQuestion);
-                          });
+                          setDimensionScores(prev => ({ ...prev, [dimKey]: newValue }));
                         }}
                         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                         style={{
