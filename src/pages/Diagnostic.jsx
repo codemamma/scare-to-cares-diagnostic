@@ -29,14 +29,16 @@ export default function Diagnostic() {
     const dimension = caresDimensions[dimensionKey];
     const responses = dimension.questions.map(q => caresResponses[q.id]);
     if (responses.some(r => r === undefined)) return 5.0;
-    const average = responses.reduce((sum, val) => sum + val, 0) / responses.length;
-    return Number(average.toFixed(1));
+    const sum = responses.reduce((sum, val) => sum + val, 0);
+    const average = sum / responses.length;
+    return Math.round(average * 10) / 10;
   };
 
   const calculateOverallScore = () => {
     const scores = dimensionOrder.map(dim => calculateDimensionScore(dim));
-    const average = scores.reduce((sum, val) => sum + val, 0) / scores.length;
-    return Number(average.toFixed(1));
+    const sum = scores.reduce((sum, val) => sum + val, 0);
+    const average = sum / scores.length;
+    return Math.round(average * 10) / 10;
   };
 
   const handleCaresResponse = (questionId, value) => {
@@ -144,14 +146,9 @@ export default function Diagnostic() {
                         onChange={(e) => {
                           const newValue = parseFloat(e.target.value);
                           const numQuestions = dimension.questions.length;
-                          dimension.questions.forEach((q, index) => {
-                            if (index === 0) {
-                              const baseValue = Math.floor(newValue * 10) / 10 / numQuestions;
-                              const remainder = newValue - (baseValue * numQuestions);
-                              handleCaresResponse(q.id, baseValue + remainder);
-                            } else {
-                              handleCaresResponse(q.id, Math.floor(newValue * 10) / 10 / numQuestions);
-                            }
+                          const valuePerQuestion = newValue / numQuestions;
+                          dimension.questions.forEach((q) => {
+                            handleCaresResponse(q.id, valuePerQuestion);
                           });
                         }}
                         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
