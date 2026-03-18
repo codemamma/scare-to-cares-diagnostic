@@ -143,9 +143,15 @@ export default function Diagnostic() {
                         value={dimensionScore}
                         onChange={(e) => {
                           const newValue = parseFloat(e.target.value);
-                          const avgPerQuestion = newValue / dimension.questions.length;
-                          dimension.questions.forEach((q) => {
-                            handleCaresResponse(q.id, avgPerQuestion);
+                          const numQuestions = dimension.questions.length;
+                          dimension.questions.forEach((q, index) => {
+                            if (index === 0) {
+                              const baseValue = Math.floor(newValue * 10) / 10 / numQuestions;
+                              const remainder = newValue - (baseValue * numQuestions);
+                              handleCaresResponse(q.id, baseValue + remainder);
+                            } else {
+                              handleCaresResponse(q.id, Math.floor(newValue * 10) / 10 / numQuestions);
+                            }
                           });
                         }}
                         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
