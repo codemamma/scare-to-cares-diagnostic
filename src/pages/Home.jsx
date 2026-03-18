@@ -303,7 +303,7 @@ export default function Home({ onStartDiagnostic }) {
             Ready to Begin?
           </h2>
           <p className="text-xl text-gray-300 mb-12 leading-relaxed">
-            Take 10 minutes to understand your leadership challenges and discover
+            Take 1 minute to understand your leadership challenges and discover
             your most important focus area.
           </p>
           <button onClick={onStartDiagnostic} className="btn-primary text-lg px-12 py-5 group">

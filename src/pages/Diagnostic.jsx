@@ -67,20 +67,46 @@ export default function Diagnostic() {
     setShowEmailModal(true);
   };
 
-  const handleEmailSubmit = (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
     if (email) {
       analytics.trackLeadCapture('email_report', email);
+
+      const overallScore = calculateOverallScore();
+      const scores = {};
+      dimensionOrder.forEach(dim => {
+        scores[dim] = calculateDimensionScore(dim);
+      });
+
+      const lowestScore = Object.entries(scores).reduce((min, [key, val]) =>
+        val < min.val ? { key, val } : min,
+        { key: dimensionOrder[0], val: scores[dimensionOrder[0]] }
+      );
+
+      const reportData = {
+        email,
+        overallScore: overallScore.toFixed(1),
+        scores,
+        focusArea: caresDimensions[lowestScore.key].title,
+        timestamp: new Date().toISOString()
+      };
+
+      console.log('Sending report to:', email, reportData);
+
       setShowEmailModal(false);
       setStage('final');
     }
   };
 
   const handleToolkitClick = () => {
-    window.open('https://sabywaraich.com/resources', '_blank');
+    window.open('https://forms.gle/YOUR_FORM_ID', '_blank');
   };
 
   const handleWorkshopClick = () => {
+    window.open('https://forms.gle/YOUR_WORKSHOP_FORM_ID', '_blank');
+  };
+
+  const handleOldWorkshopClick = () => {
     window.open('https://sabywaraich.com/workshop', '_blank');
   };
 
@@ -280,14 +306,11 @@ export default function Diagnostic() {
               onClick={handleToolkitClick}
               className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-xl transition-all"
             >
-              Get Your Copy Now
+              Get the Toolkit
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
             </button>
-            <p className="text-sm text-gray-500 mt-4 italic">
-              As an Amazon Associate I earn from qualifying purchases.
-            </p>
           </div>
 
           <div className="mb-12">
@@ -333,13 +356,13 @@ export default function Diagnostic() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Join Workshop</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Book Workshop</h3>
                 <p className="text-sm text-gray-600 mb-4">Cohort-based CARES framework training</p>
                 <button
                   onClick={handleWorkshopClick}
                   className="text-purple-600 hover:text-purple-700 font-medium text-sm"
                 >
-                  Join Waitlist →
+                  More Details →
                 </button>
               </div>
 
