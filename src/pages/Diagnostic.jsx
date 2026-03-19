@@ -95,6 +95,42 @@ export default function Diagnostic() {
 
       const recommendations = getRecommendedChapters(lowestScore.key);
 
+      const dimensionLabels = {
+        stress: 'Stress Response',
+        communication: 'Communication',
+        adaptation: 'Adaptation',
+        relationships: 'Relationships',
+        empowerment: 'Alignment'
+      };
+
+      const recommendedChaptersStructured = recommendations.slice(0, 3).map(rec => ({
+        chapter: rec.chapter,
+        title: rec.title,
+        summary: rec.summary,
+        reason: rec.reason
+      }));
+
+      const recommendedActionsStructured = [
+        {
+          action: 'toolkit',
+          label: 'Get the Toolkit',
+          description: 'Complete toolkit with frameworks and exercises',
+          reason: `Low ${dimensionLabels[lowestScore.key]} score`
+        },
+        {
+          action: 'workshop',
+          label: 'Book Workshop',
+          description: 'Cohort-based CARES framework training',
+          reason: `Low ${dimensionLabels[lowestScore.key]} score`
+        },
+        {
+          action: 'strategy_session',
+          label: '1:1 Strategy Session',
+          description: 'Work directly with Saby Waraich',
+          reason: `Low ${dimensionLabels[lowestScore.key]} score`
+        }
+      ];
+
       const payload = {
         email,
         overallScore: parseFloat(overallScore.toFixed(1)),
@@ -105,12 +141,8 @@ export default function Diagnostic() {
           stressResponse: scores.stress,
           alignment: scores.empowerment,
         },
-        recommendedChapters: recommendations,
-        recommendedActions: [
-          { title: 'Get the Toolkit', description: 'Complete toolkit with frameworks and exercises' },
-          { title: 'Book Workshop', description: 'Cohort-based CARES framework training' },
-          { title: '1:1 Strategy Session', description: 'Work directly with Saby Waraich' }
-        ]
+        recommendedChapters: recommendedChaptersStructured,
+        recommendedActions: recommendedActionsStructured
       };
 
       const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-assessment`;
