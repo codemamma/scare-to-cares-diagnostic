@@ -162,11 +162,38 @@ export default function Diagnostic() {
     window.open('https://sabywaraich.com/resources', '_blank');
   };
 
-  const handleGetBookClick = () => {
+  const trackAction = async (actionType) => {
+    if (!submissionState.assessmentId) {
+      console.warn('No assessment ID available for tracking');
+      return;
+    }
+
+    try {
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/track-action`;
+      await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+        },
+        body: JSON.stringify({
+          assessmentId: submissionState.assessmentId,
+          actionType: actionType
+        })
+      });
+    } catch (error) {
+      console.error('Failed to track action:', error);
+    }
+  };
+
+  const handleGetBookClick = async () => {
+    await trackAction('toolkit');
     window.open('https://forms.gle/YOUR_TOOLKIT_FORM_ID', '_blank');
   };
 
-  const handleWorkshopClick = () => {
+  const handleWorkshopClick = async () => {
+    await trackAction('workshop');
     window.open('https://forms.gle/YOUR_WORKSHOP_FORM_ID', '_blank');
   };
 
@@ -174,7 +201,8 @@ export default function Diagnostic() {
     window.open('https://sabywaraich.com/workshop', '_blank');
   };
 
-  const handleCoachingClick = () => {
+  const handleCoachingClick = async () => {
+    await trackAction('strategy_session');
     window.open('https://calendly.com/sabywaraich', '_blank');
   };
 
